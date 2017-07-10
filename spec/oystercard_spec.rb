@@ -28,4 +28,28 @@ describe Oystercard do
       expect { card.deduct(1) }.to change { card.balance }.by -1
     end
   end
+
+context 'requires top-up to travel' do
+  before { card.top_up(Oystercard::MAX_BALANCE) }
+
+    describe '#in_journey?' do
+      it 'is initially not in a journey' do
+        expect(card.in_journey?).to be false
+      end
+    end
+
+    describe '#touch_in' do
+      it 'confirms in journey if touched in' do
+        card.touch_in
+        expect(card).to be_in_journey
+      end
+    end
+
+    describe '#touch_out' do
+      it 'confirm out of journey if touched out' do
+        card.touch_out
+        expect(card).not_to be_in_journey
+      end
+    end
+  end
 end
