@@ -5,6 +5,6 @@ require './lib/oystercard.rb'
 # As a customer
 # I want money on my card
 
-balance = 15
+balance = 0
 oystercard = Oystercard.new(balance)
 p oystercard
