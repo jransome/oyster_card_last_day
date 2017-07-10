@@ -11,4 +11,9 @@ describe Oystercard do
     expect(card).to have_attributes(:balance => 0)
   end
 
+  describe '#top_up' do
+    it 'increments the card balance' do
+      expect { card.top_up(1) }.to change { card.balance }.by 1
+    end
+  end
 end
