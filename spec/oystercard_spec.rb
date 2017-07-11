@@ -14,6 +14,10 @@ describe Oystercard do
     expect(card).to have_attributes(balance: 0)
   end
 
+  it "raises an error if there is not enough funds for the minimum fare" do
+    expect { card.touch_in }.to raise_error "Insufficient funds"
+  end
+
   context '#top_up' do
     it 'increments the card balance' do
       expect { card.top_up(top_up) }.to change { card.balance }.by top_up
@@ -54,12 +58,9 @@ context 'requires top-up to travel' do
       end
     end
 
-    it "requires a minimum balance on a card to start a journey" do
-      expect(card.balance).to satisfy { |balance| balance >= minumum_balance }
-    end
+      it "requires a minimum balance on a card to start a journey" do
+        expect(card.balance).to satisfy { |balance| balance >= minumum_balance }
+      end
 
-    it "raises an error if there is not enough funds for the minimum fare" do
-      
-    end
   end
 end
