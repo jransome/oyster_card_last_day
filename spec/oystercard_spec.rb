@@ -6,6 +6,7 @@ describe Oystercard do
   let(:max_balance) { described_class::MAX_BALANCE }
   let(:minumum_balance) { 1 }
   let(:minumum_fare) { 1 }
+  let(:station) { double "station" }
 
   it 'creates card' do
    expect(card).to respond_to(:balance)
@@ -25,11 +26,7 @@ describe Oystercard do
     end
   end
 
-
-
-
-
-context 'card has funds' do
+context 'has funds' do
   before { card.top_up(max_balance) }
 
     describe '#in_journey?' do
@@ -40,8 +37,13 @@ context 'card has funds' do
 
     describe '#touch_in' do
       it 'confirms in journey if touched in' do
-        card.touch_in
+        card.touch_in(station)
         expect(card).to be_in_journey
+      end
+
+      it 'remembers entry station' do
+        card.touch_in(station)
+        expect(card.entry_station).to eq station
       end
     end
 
