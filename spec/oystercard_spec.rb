@@ -29,17 +29,7 @@ describe Oystercard do
 context 'has funds' do
   before { card.top_up(max_balance) }
 
-    describe '#in_journey?' do
-      it 'is initially not in a journey' do
-        expect(card.in_journey?).to be false
-      end
-    end
-
     describe '#touch_in' do
-      it 'confirms in journey if touched in' do
-        card.touch_in(station)
-        expect(card).to be_in_journey
-      end
 
       it 'remembers entry station' do
         card.touch_in(station)
@@ -48,9 +38,10 @@ context 'has funds' do
     end
 
     describe '#touch_out' do
-      it 'confirm out of journey if touched out' do
-        card.touch_out
-        expect(card).not_to be_in_journey
+      before { card.touch_out }
+
+      it "sets entry_station to nil" do
+        expect(card.entry_station).to eq nil
       end
     end
 
