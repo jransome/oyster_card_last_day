@@ -5,6 +5,7 @@ describe Oystercard do
   let(:top_up) { 50 }
   let(:max_balance) { described_class::MAX_BALANCE }
   let(:minumum_balance) { 1 }
+  let(:minumum_fare) { 1 }
 
   it 'creates card' do
    expect(card).to respond_to(:balance)
@@ -12,10 +13,6 @@ describe Oystercard do
 
   it 'has initial balance of 0' do
     expect(card).to have_attributes(balance: 0)
-  end
-
-  it "raises an error if there is not enough funds for the minimum fare" do
-    expect { card.touch_in }.to raise_error "Insufficient funds"
   end
 
   context '#top_up' do
@@ -28,14 +25,11 @@ describe Oystercard do
     end
   end
 
-  context '#deduct' do
-    it 'deducts an amount from the balance' do
-      subject.top_up(top_up)
-      expect { card.deduct(1) }.to change { card.balance }.by -1
-    end
-  end
 
-context 'requires top-up to travel' do
+
+
+
+context 'card has funds' do
   before { card.top_up(max_balance) }
 
     describe '#in_journey?' do
@@ -58,9 +52,12 @@ context 'requires top-up to travel' do
       end
     end
 
-      it "requires a minimum balance on a card to start a journey" do
-        expect(card.balance).to satisfy { |balance| balance >= minumum_balance }
-      end
+    it 'deducts an amount from the balance when touching out' do
+      expect { card.touch_out }.to change { card.balance }.by -minumum_fare
+    end
 
+    it "requires a minimum balance on a card to start a journey" do
+      expect(card.balance).to satisfy { |balance| balance >= minumum_balance }
+    end
   end
 end
