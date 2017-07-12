@@ -61,6 +61,5 @@ context 'has funds' do
       card.touch_out(station)
       expect(card.journey_history).to_not eq nil
     end
-
   end
 end
