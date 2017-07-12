@@ -7,6 +7,8 @@ describe Oystercard do
   let(:minumum_balance) { 1 }
   let(:minumum_fare) { 1 }
   let(:station) { double "station" }
+  let(:name) {"Victoria"}
+  let(:zone) {1}
 
   it 'creates card' do
    expect(card).to respond_to(:balance)
@@ -35,14 +37,13 @@ context 'has funds' do
 
     describe '#touch_in' do
 
-      it 'remembers entry station' do
-        card.touch_in(station)
-        expect(card.entry_station).to eq station
+      it 'creats a new journey' do
+        expect(card.touch_in("Victoria", 1)).to be_a Journey
       end
     end
 
     describe '#touch_out' do
-      before { card.touch_out(station) }
+      before { card.touch_out(name,zone) }
 
       it "sets entry_station to nil" do
         expect(card.entry_station).to eq nil
@@ -61,5 +62,11 @@ context 'has funds' do
       card.touch_out(station)
       expect(card.journey_history).to_not eq nil
     end
+
+    it "saves a journey" do
+      card.save_journey(name,zone)
+      expect(card.journey_history).to be_a 
+    end
+
   end
 end
