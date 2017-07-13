@@ -1,4 +1,4 @@
-require 'journey'
+
 
 class Oystercard
 
@@ -17,24 +17,24 @@ class Oystercard
     @balance += amount
   end
 
-  def touch_in(name,zone)
+  def touch_in(entry_station)
     fail "Insufficient funds" if balance < MIN_BALANCE
-    journey = Journey.new(name,zone)
+    @journey_history << Journey.new(entry_station)
   end
 
-  def touch_out(fare = MIN_FARE, name, zone)
+  def touch_out(fare = MIN_FARE, exit_station)
     deduct(fare)
-    save_journey(entry_station, exit_station)
+    save_journey(exit_station)
     #end journey
-  end
-
-  def save_journey(entry_station, exit_station)
-    @journey_history << {entry_station => exit_station}
   end
 
   private
   def deduct(amount)
     @balance -= amount
+  end
+
+  def save_journey(exit_station)
+    @journey_history.last.end_journey(exit_station)
   end
 
   # def in_journey?

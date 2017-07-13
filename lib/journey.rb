@@ -1,18 +1,16 @@
-require 'station'
+
 
 class Journey
 
   attr_reader :entry_station, :exit_station
 
-  def initialize(name, zone)
-    @entry_station = Station.new(name,zone)
+  def initialize(station)
+    @entry_station = station
     @exit_station = nil
   end
 
-  def end_journey(name, zone)
-    @exit_station = Station.new(name,zone)
-    save_journey(@entry_station, @exit_station)
+  def end_journey(station)
+    @exit_station = station
+  #  save_journey(@entry_station, @exit_station)
   end
-
-
 end
