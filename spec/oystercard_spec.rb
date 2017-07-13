@@ -36,6 +36,13 @@ describe Oystercard do
    end
   end
 
+  context "not on a journey" do
+
+    it "has a penalty fare deducted when touched out" do
+      expect{card.touch_out(exit_station)}.to change{card.balance}.by -penalty_fare
+    end
+  end
+
   context 'has funds' do
     before { card.top_up(max_balance) }
 
@@ -66,6 +73,7 @@ describe Oystercard do
         expect(card.journey_history.last.exit_station).to eq exit_station
       end
     end
+
   end
 
 end

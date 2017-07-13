@@ -20,12 +20,19 @@ class Oystercard
       puts "Penalty fare deducted"
       deduct(@journey_history.last.fare)
     end
-    @journey_history << Journey.new(entry_station)
+    @journey_history << Journey.new(entry_station, nil)
   end
 
   def touch_out(exit_station)
-    save_journey(exit_station)
-    deduct(@journey_history.last.fare)
+    if in_journey?
+      save_journey(exit_station)
+      puts "fare deducted"
+      deduct(@journey_history.last.fare)
+    else
+      @journey_history << Journey.new(nil, exit_station)
+      puts "Penalty fare deducted"
+      deduct(@journey_history.last.fare)
+    end
   end
 
   def in_journey?
