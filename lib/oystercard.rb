@@ -28,7 +28,7 @@ class Oystercard
       save_journey(exit_station)
       puts "fare deducted"
       deduct(@journey_history.last.fare)
-    else
+    else # touch out without touching in
       @journey_history << Journey.new(nil, exit_station)
       puts "Penalty fare deducted"
       deduct(@journey_history.last.fare)
@@ -37,7 +37,7 @@ class Oystercard
 
   def in_journey?
     return false if @journey_history.empty?
-    @journey_history.last.in_journey?
+    !@journey_history.last.complete
   end
 
   private

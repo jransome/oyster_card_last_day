@@ -15,7 +15,7 @@ subject(:journey) { described_class.new(entry_station) }
     end
 
     it 'is in a journey' do
-      expect(journey).to be_in_journey
+      expect(journey.complete).to eq false
     end
   end
 
@@ -33,7 +33,7 @@ subject(:journey) { described_class.new(entry_station) }
     end
 
     it 'is no longer in a journey' do
-      expect(journey).to_not be_in_journey
+      expect(journey.complete).to eq true
     end
   end
 
